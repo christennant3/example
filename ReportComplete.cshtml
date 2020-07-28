@@ -1,0 +1,103 @@
+﻿@section Head {
+
+<link href="/css/TrainerAssessmentReport/results.css" rel="stylesheet" /> }
+
+
+
+<div v-if="result.skip === true">
+<p>You decided to skip this report.</p>
+</div>
+
+
+<div v-else>
+
+    @await Component.InvokeAsync("SelectedTrainer")
+     
+    <div class="grid-x">
+        <div class="cell small-6">
+            <b>Score:
+                <span>{{result.score}}</span>
+            </b>
+    
+            <!--Check risk assessment result is over 7 if not fail whatever score-->
+    
+            <div v-if="result.riskScore <= '7'">
+                <p>Grade:
+                    <b>
+                        <span class="red">RED = You scored 7 or less in the risk management section</span>
+                    </b>
+                </p>
+            </div>
+            <div v-else>
+    
+                <!--Grade-->
+                <br>Grade:
+                <b>
+                    <span v-if="result.score <= '30'" class="red">RED</span>
+                    <span v-if="result.score >= '31' && result.score <='42'" class="amber">Amber</span>
+                    <span v-if="result.score >= '43'" class="green">Green</span>
+                </b>
+            </div>
+    
+            <br>
+    
+        </div>
+        <div class="cell small-6">
+    
+            Score for lesson planning: {{result.lessonScore}}
+            <br> Score for risk management: {{result.riskScore}}
+            <br> Score for teaching strategies: {{result.teachingScore}}
+            <br>
+        </div>
+    </div>
+    
+    
+    <hr>
+    
+    <div v-for="answer in answers">
+        <div class="question">{{answer.question}}</div>
+        <div class="area">{{answer.area}}</div>
+        <div class="trafficlight">
+    
+    
+    
+            <span v-if="answer.trafficLightId != '4'" class="tl-purple"></span>
+            <span v-if="answer.trafficLightId == '4'" class="tl-purple selectedtl"></span>
+            <span v-if="answer.trafficLightId != '3'" class="tl-red"></span>
+            <span v-if="answer.trafficLightId == '3'" class="tl-red selectedtl"></span>
+            <span v-if="answer.trafficLightId != '2'" class="tl-amber"></span>
+            <span v-if="answer.trafficLightId == '2'" class="tl-amber selectedtl"></span>
+            <span v-if="answer.trafficLightId != '1'" class="tl-green"></span>
+            <span v-if="answer.trafficLightId == '1'" class="tl-green selectedtl"></span>
+    
+    
+            <div class="reason">
+                <p>{{answer.reason}}</p>
+            </div>
+            <br>
+            <hr>
+        </div>
+    </div>
+    
+</div>
+
+
+     <nav id="bottom">
+        <div class="grid-x">
+            <div class="cell small-6">
+                <i class="arrowleft" title="arrow icon"></i> <a v-bind:href="'/TrainerManagement/Workshop?id='+ result.userId">Back</a> </div>
+                    <div class="cell small-6"></div>
+            </div>
+        </div>
+    </nav>
+    
+ 
+
+
+
+@section Breadcrumbs { 
+
+}
+@section Scripts {
+<script src="/js/TrainerAssessmentReport/results.js"></script> 
+}

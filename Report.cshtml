@@ -1,0 +1,96 @@
+﻿@section Head {
+
+<link href="/css/TrainerAssessmentReport/report.css" rel="stylesheet" /> 
+
+}
+
+<div>
+
+    <div v-if="!showNote">
+
+        <div v-if="!questionsComplete" class="questions">
+
+            <p class="question-text">{{ report.question }}</p>
+
+            <div class="answer-buttons">
+                <form id="quiz">
+                    <input type="submit" name="buttonpurple" value="Purple" class="button purple-q" v-on:click.prevent="submitPurple">
+                    <input type="submit" name="buttonred" value="Red" class="button red-q" v-on:click.prevent="submitRed">
+                    <input type="submit" name="buttonamber" value="Amber" class="button amber-q" v-on:click.prevent="submitAmber">
+                    <input name="buttongreen" value="Green" class="button green-q" v-on:click.prevent="submitGreen">
+                </form>
+
+            </div>
+
+        </div>
+
+        <div v-if="questionsComplete">
+
+            <form id="assessmentForm">
+
+                <div class="grid-x grid-margin-x">
+                    <!-- <div class="small-12 medium-6 cell">
+                        <label>Your Session Date:</label>
+                        <input type="date" name="sessionDate" v-validate="'required'" v-model="form.currentSession">
+                        <p style="color:red;">{{errors.first('sessionDate')}}</p>
+                    </div> -->
+                    <div class="small-12 medium-6 cell">
+                        <label>Your
+                            <b>Next</b> Session Date:</label>
+                        <input type="date" name="nextSessionDate" v-model="form.nextSession">
+                        <!-- <p style="color:red;">{{errors.first('nextSessionDate')}}</span> -->
+
+                        
+                    </div>
+                </div>
+
+
+                <button v-on:click.prevent="submitAssessment" id="submitTheAssessment">Submit Assessment</button>
+
+                <p class="red" v-if="form.message">Please enter a date.</p>
+            </form>
+
+
+
+
+        </div>
+
+
+        <hr>
+        <p>Total Score:
+            <span class="red">
+                <b>{{ score }}</b>
+            </span>
+            <span v-if="!questionsComplete"> - Question {{ questionOrder }} / {{ questionCount }}</span>
+        </p>
+        </p>
+
+        <ul>
+            <li>Lesson Score: {{ lessonScore }}</li>
+            <li>Risk Score: {{ riskScore }}</li>
+            <li>Teaching Score: {{ teachingScore }}</li>
+        </ul>
+
+
+
+    </div>
+
+    <div id="reason" v-if="showNote">
+        <form id="reasonForm">
+            <textarea v-validate="'required|min:6'" placeholder="Insert reason here" id="reasonText" name="reasonText" v-model="form.reason"
+                rows="4"></textarea>
+            <button :disabled='!formValidated' v-on:click.prevent="addReason">Submit Reason</button>
+            <span>{{ errors.first('form.reason') }}</span>
+        </form>
+       
+    </div>
+
+</div>
+
+@section Breadcrumbs {
+
+ } 
+ 
+ @section Scripts {
+<script src="~/js/TrainerAssessmentReport/report.js"></script> 
+}
